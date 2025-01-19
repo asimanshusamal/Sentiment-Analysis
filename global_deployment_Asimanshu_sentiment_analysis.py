@@ -4,17 +4,16 @@ from transformers import pipeline
 st.title("Sentiment Analysis App")
 
 text = st.text_area("Enter text to analyze:", height=150)
-try:
-    @st.cache_resource
-    def loadmod():
+
+@st.cache_data  # Correctly using st.cache_data
+def load_model():
+    try:
         return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
-        classifier = loadmod()
     except Exception as e:
         st.error(f"Error loading the model: {e}")
         st.stop()
 
-
-classifier = loadmod()
+classifier = load_model()
 
 if st.button("Analyze"):
     if not text.strip():
