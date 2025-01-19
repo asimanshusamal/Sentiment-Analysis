@@ -6,34 +6,27 @@ st.title("Sentiment Analysis App")
 text = st.text_area("Enter text to analyze:", height=150)
 
 @st.cache_data  # Correctly using st.cache_data
-def load_model():
+def loadmod():
     try:
-        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
-    except Exception as e:
+        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment") #basically the default model was really mediocre, so I found a model I liked which was trained using real social media data
+    except Exception as e: #error handling 
         st.error(f"Error loading the model: {e}")
         st.stop()
 
-classifier = load_model()
+classifier = loadmod() #I learnt these terms especially Streamlit mostly from the internet, but the base was in class
 
-if st.button("Analyze"):
-    if not text.strip():
+if st.button("Analyze Text"):
+    if (not text.strip()) == True: #Removing spaces and whitespace character
         st.warning("Please enter some text to analyze.")
     else:
         st.spinner('Analyzing...')
         try:
+            #This is the part I wrote in Jupyter Notebook, before even knowing what streamlit was
             result = classifier(text)
             predicted_label = result[0]['label']
             score = result[0]['score']
 
-            if predicted_label == "LABEL_2":
-                sentiment = "Positive"
-            elif predicted_label == "LABEL_1":
-                sentiment = "Neutral"
-            elif predicted_label == "LABEL_0":
-                sentiment = "Negative"
-            else:
-                sentiment = "Unknown"
-                st.error("Unexpected label returned by the model.")
+
 
             mood = ""
             if 0 <= score < 0.25:
@@ -48,8 +41,15 @@ if st.button("Analyze"):
                 mood = "Strongly "
             else:
                 mood = "Definitely "
-            mood += sentiment
-
+            if predicted_label == "LABEL_2": 
+                mood= mood+" Positive"
+            elif predicted_label == "LABEL_1":
+                mood= mood+" Neutral"
+            elif predicted_label == "LABEL_0":
+                mood= mood+" Negative"
+            else:
+                sentiment = "Unknown" #basic error handling
+                st.error("Unexpected label returned by the model.")
             st.write(f"Sentiment: {mood}")
             st.write(f"Score: {score:.2f}")
             st.progress(score)
