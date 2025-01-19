@@ -13,7 +13,7 @@ def loadmod():
         st.error(f"Error loading the model: {e}")
         st.stop()
 
-classifier = load_mod()
+classifier = loadmod()
 
 if st.button("Analyze"):
     if not text.strip():
