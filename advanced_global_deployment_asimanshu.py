@@ -71,4 +71,4 @@ else:
     st.info("Enter text above and click 'Analyze' to begin.")
 
 st.markdown("---")
-st.write("Created by Asimanshu Samal")
+st.write("Created by Asimanshu Samal and Siddarth Kesav")
