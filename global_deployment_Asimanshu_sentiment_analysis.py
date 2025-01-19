@@ -4,13 +4,14 @@ from transformers import pipeline
 st.title("Sentiment Analysis App")
 
 text = st.text_area("Enter text to analyze:", height=150)
-@st.cache_resource
+try:
+    @st.cache_resource
     def loadmod():
         return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
-    classifier = loadmod()
-except Exception as e:
-    st.error(f"Error loading the model: {e}")
-    st.stop()
+        classifier = loadmod()
+    except Exception as e:
+        st.error(f"Error loading the model: {e}")
+        st.stop()
 
 
 classifier = loadmod()
