@@ -7,7 +7,9 @@ text = st.text_area("Enter text to analyze:", height=150)
 
 try:
     @st.cache_resource
-    classifier = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
+    def load_mod():
+        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
+    classifier = load_mod()
 except Exception as e:
     st.error(f"Error loading the model: {e}")
     st.stop()
