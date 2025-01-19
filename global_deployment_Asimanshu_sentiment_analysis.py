@@ -1,6 +1,5 @@
 import streamlit as st
 from transformers import pipeline
-st.image("dps image.jpeg")
 st.title("Sentiment Analysis App")
 
 text = st.text_area("Enter text to analyze:", height=150)
