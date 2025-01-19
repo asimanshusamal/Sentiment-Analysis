@@ -6,14 +6,14 @@ st.title("Sentiment Analysis App")
 text = st.text_area("Enter text to analyze:", height=150)
 
 @st.cache_data  # Correctly using st.cache_data
-def load_model():
+def loadmod():
     try:
-        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
+        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment") #Default model was mediocre, I used this one trained on twitter messages
     except Exception as e:
         st.error(f"Error loading the model: {e}")
         st.stop()
 
-classifier = load_model()
+classifier = load_mod()
 
 if st.button("Analyze"):
     if not text.strip():
@@ -50,8 +50,8 @@ if st.button("Analyze"):
                 mood = "Definitely "
             mood += sentiment
 
-            st.write(f"Sentiment: {mood}")
-            st.write(f"Score: {score:.2f}")
+            st.metric(f"Sentiment: {mood}")
+            st.metric(f"Score: {score:.2f}")
             st.progress(score)
 
             if sentiment == "Positive":
