@@ -50,9 +50,9 @@ if st.button("Analyze"):
                 mood = "Definitely "
             mood += sentiment
 
-            st.metric(f"Sentiment: {mood}")
+            st.metric(label="Sentiment", value=mood)
             st.metric(f"Score: {score:.2f}")
-            st.progress(score)
+            st.progress(label=" Score", value=f"{score:.2f}")
 
             if sentiment == "Positive":
                 st.success("Positive Sentiment Detected! :thumbsup:")
