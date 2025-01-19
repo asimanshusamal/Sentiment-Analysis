@@ -5,23 +5,13 @@ st.title("Sentiment Analysis App")
 
 text = st.text_area("Enter text to analyze:", height=150)
 
-# Replicate st.cache_resource functionality (very basic, no true caching)
-model_loaded = False
-classifier = None
-
+@st.cache_data  # Correctly using st.cache_data
 def load_model():
-    global model_loaded, classifier
-    if not model_loaded:
-        try:
-            classifier = pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
-            model_loaded = True
-            return classifier
-        except Exception as e:
-            st.error(f"Error loading the model: {e}")
-            st.stop()
-    else:
-        return classifier
-        
+    try:
+        return pipeline("sentiment-analysis", model="cardiffnlp/twitter-roberta-base-sentiment")
+    except Exception as e:
+        st.error(f"Error loading the model: {e}")
+        st.stop()
 
 classifier = load_model()
 
@@ -60,7 +50,6 @@ if st.button("Analyze"):
                 mood = "Definitely "
             mood += sentiment
 
-            # Replicate st.columns functionality (basic text output)
             st.write(f"Sentiment: {mood}")
             st.write(f"Score: {score:.2f}")
             st.progress(score)
@@ -72,7 +61,6 @@ if st.button("Analyze"):
             else:
                 st.info("Neutral Sentiment Detected. :neutral_face:")
 
-            #Replicate st.expander functionality (basic text output)
             st.write("See Advanced Metrics:")
             st.json(result)
             st.write("Here, the LABEL signifies the emotion and score signifies the strength of that emotion.")
