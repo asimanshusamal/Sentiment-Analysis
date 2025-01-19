@@ -2,3 +2,4 @@ transformers
 streamlit       
 numpy         
 scipy          
+torch==2.5.1
